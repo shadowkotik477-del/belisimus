@@ -1,8 +1,4 @@
--- BELISIMUS - COMPACT
--- Версия: 1.0
--- GitHub: https://github.com/shadowkoti477-del/belisimus
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/shadowkoti477-del/belisimus/main/main.lua"))()
+-- BELISIMUS - Rivals Script
 
 local Players=game:GetService("Players")
 local RunService=game:GetService("RunService")
@@ -16,10 +12,9 @@ local HttpService=game:GetService("HttpService")
 
 local Player=Players.LocalPlayer
 local Mouse=Player:GetMouse()
-
 local DISCORD="https://discord.gg/MPjUNh3z2"
 
--- ========== НАСТРОЙКИ ==========
+-- НАСТРОЙКИ
 local S={
     silentAim=true,silentAimFOV=150,
     aimbot=false,aimbotSmooth=3,aimbotFOV=120,aimKey="MouseButton2",aimLock=false,
@@ -32,7 +27,6 @@ local S={
     skin=false,skinSel="Golden",
 }
 
--- ========== ПЕРЕМЕННЫЕ ==========
 local espObjs={}
 local lastESP=0
 local enemyCache={}
@@ -41,7 +35,6 @@ local CACHE_DUR=0.15
 local lastTrigger=0
 local flyVel=Vector3.new(0,0,0)
 
--- ========== ОСНОВНЫЕ ФУНКЦИИ ==========
 local function getChar()
     local c=Player.Character
     if not c or not c.Parent then Player.CharacterAdded:Wait();c=Player.Character end
@@ -122,7 +115,6 @@ local function getTarget(fov,useHead)
     return best
 end
 
--- ========== AIMBOT ==========
 RunService.RenderStepped:Connect(function()
     if not S.silentAim then return end
     local target=getTarget(S.silentAimFOV,false)
@@ -165,7 +157,6 @@ local function updateTbot()
     lastTrigger=tick()
 end
 
--- ========== ESP ==========
 local function updateESP()
     if not S.esp then
         for _,o in pairs(espObjs)do pcall(function()o:Destroy()end)end
@@ -237,7 +228,6 @@ local function updateESP()
     end
 end
 
--- ========== NO RECOIL ==========
 local function applyNoRecoil()
     if not S.noRecoil and not S.noSpread then return end
     local char=getChar()
@@ -264,7 +254,6 @@ local function applyNoRecoil()
     end
 end
 
--- ========== SPEED HACK ==========
 local function speedHack()
     local hum=getHumanoid()
     if hum then
@@ -272,7 +261,6 @@ local function speedHack()
     end
 end
 
--- ========== FLY ==========
 local flyActive=false
 local function updateFly()
     if not S.fly then flyActive=false;return end
@@ -294,7 +282,6 @@ local function updateFly()
     flyVel=vel;root.Velocity=vel;root.CFrame=root.CFrame+vel*0.05
 end
 
--- ========== INFINITE JUMP ==========
 UserInputService.JumpRequest:Connect(function()
     if S.jump then
         local hum=getHumanoid()
@@ -302,7 +289,6 @@ UserInputService.JumpRequest:Connect(function()
     end
 end)
 
--- ========== SKIN CHANGER ==========
 local function updateSkin()
     if not S.skin then return end
     local char=getChar()
@@ -334,7 +320,6 @@ local function updateSkin()
     end
 end
 
--- ========== ОСНОВНОЙ ЦИКЛ ==========
 RunService.Heartbeat:Connect(function()
     updateESP()
     applyNoRecoil()
@@ -345,7 +330,7 @@ RunService.Heartbeat:Connect(function()
     updateAimbot()
 end)
 
--- ========== КОМПАКТНОЕ МЕНЮ ==========
+-- ========== МЕНЮ ==========
 local function createMenu()
     local sg=Instance.new("ScreenGui")
     sg.Name="Belisimus_Menu"
